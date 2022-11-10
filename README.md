@@ -1,7 +1,5 @@
 # PPL_C_2022_4
 
-
-Kelompok 4
 Nama Anggota:
 1. Bossini Yan Fedro			      24060120140170
 2. Rachmad Akbar Ramadan 	      24060120140170
