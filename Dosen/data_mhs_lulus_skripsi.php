@@ -8,8 +8,8 @@ if (!isset($_SESSION['email'])) {
 <?php
 require '../db_connect.php';
 
-$result = mysqli_query($koneksi, "SELECT mahasiswa.nimmhs, mahasiswa.nama_mhs, mahasiswa.angkatan, skripsi.nilai_skripsi, skripsi.status_skripsi, skripsi.lama_belajar, skripsi.tanggal_sidang
-FROM mahasiswa INNER JOIN skripsi ON mahasiswa.nimmhs = skripsi.nim WHERE skripsi.status_skripsi = 'Lulus' ORDER BY mahasiswa.angkatan");
+$result = mysqli_query($koneksi, "SELECT mahasiswa.NIM, mahasiswa.nama_mhs, mahasiswa.angkatan, skripsi.nilai_skripsi, skripsi.status_skripsi, skripsi.lama_belajar, skripsi.tanggal_sidang
+FROM mahasiswa INNER JOIN skripsi ON mahasiswa.NIM = skripsi.nim_mhs WHERE skripsi.status_skripsi = 'Lulus' ORDER BY mahasiswa.angkatan");
 ?>
 
 <!DOCTYPE html>
@@ -158,7 +158,7 @@ FROM mahasiswa INNER JOIN skripsi ON mahasiswa.nimmhs = skripsi.nim WHERE skrips
                             while ($row = $result->fetch_object()) {
                                 echo '<tr>';
                                 echo '<td>' . $i . '</td>';
-                                echo '<td>' . $row->nimmhs . '</td>';
+                                echo '<td>' . $row->NIM . '</td>';
                                 echo '<td>' . $row->nama_mhs . '</td>';
                                 echo '<td>' . $row->angkatan . '</td>';
                                 echo '<td>' . $row->nilai_skripsi . '</td>';

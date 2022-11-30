@@ -118,9 +118,6 @@ $result = mysqli_fetch_array($sql);
                 <a href="verifikasi.php" class="nav-link text-light pl-2">Verifikasi Berkas Mahasiswa</a>
             </li>
             <li class="nav-item w-100">
-                <a href="programstudi.php" class="nav-link text-light pl-2">Program Studi Mahasiswa</a>
-            </li>
-            <li class="nav-item w-100">
                 <a href="datapkl.php" class="nav-link text-light pl-2">Data Mahasiswa PKL</a>
             </li>
             <li class="nav-item w-100">
@@ -148,7 +145,9 @@ $result = mysqli_fetch_array($sql);
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="profile text-center">
-                                    <img src="foto.jpg" alt="" class="rounded-circle" width="100px">
+                                    <?php
+                                    echo '<img src="profil/' . $result['foto_profil'] . '" alt="foto" width="100px" class="rounded-circle" />';
+                                    ?>
                                 </div>
                                 <div class="keterangan">
                                     <h5 class="mt-2">Nama</h5>

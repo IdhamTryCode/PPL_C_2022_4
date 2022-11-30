@@ -144,11 +144,11 @@ require '../db_connect.php';
             </button>
 
             <div class="card ">
-                <div class="card-header"></div>
+                <div class="card-header font-weight-bold">Data Mahasiswa Perwalian</div>
                 <div class="card-body text-center">
                     <div class="container ">
                         <div class="row">
-                            <div class="col">
+                            <div class="col p-0 mt-5">
                                 <h1>
                                     <?php
                                     $jumlah = mysqli_query($koneksi, "SELECT * FROM mahasiswa WHERE status_mhs='aktif'");

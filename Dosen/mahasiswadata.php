@@ -7,6 +7,18 @@ require '../db_connect.php';
 
 $sql = "SELECT * FROM mahasiswa ORDER BY NIM";
 $result = $koneksi->query($sql);
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $nama = $row['nama_mhs'];
+        $status = $row['status_mhs'];
+        $nim = $row['NIM'];
+        $angkatan = $row['angkatan'];
+        $alamat = $row['alamat_mhs'];
+        $phone = $row['no_hp_mhs'];
+        $email = $row['email_mhs'];
+        $jalur = $row['jalur_masuk'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -140,11 +152,11 @@ $result = $koneksi->query($sql);
                         <table class="table table-borderless table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Foto</th>
-                                    <th scope="col">Nama</th>
-                                    <th scope="col">NIM</th>
-                                    <th scope="col">View</th>
+                                    <th class="h4" scope="col">No</th>
+                                    <th scope="col" class="h4">Foto</th>
+                                    <th scope="col" class="h4">Nama</th>
+                                    <th scope="col" class="h4">NIM</th>
+                                    <th scope="col" class="h4">View</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -157,10 +169,18 @@ $result = $koneksi->query($sql);
                                         <tr class="">
                                             <td><?php echo $no++; ?></td>
                                             <td>
-                                                <img src="foto.jpg" width="90" height="90">
+                                                <?php
+                                                if (isset($_GET['email_mhs'])) {
+                                                    $email = $_GET['email_mhs'];
+                                                }
+                                                $res = mysqli_query($koneksi, "SELECT foto_profil FROM mahasiswa WHERE email_mhs = '$email'");
+                                                $hasil = mysqli_fetch_array($res);
+                                                echo '<img src="profil/' . $row['foto_profil'] . '" alt="foto" width="100px" class="rounded-circle" />';
+                                                ?>
+                                                <!-- <img src="foto.jpg" alt=""> -->
                                             </td>
-                                            <td><?php echo $row['nama_mhs']; ?></td>
-                                            <td><?php echo $row['NIM']; ?></td>
+                                            <td class="font-weight-bold"><?php echo $row['nama_mhs']; ?></td>
+                                            <td class="font-weight-bold"><?php echo $row['NIM']; ?></td>
                                             <td>
                                                 <a href="datamahasiswa.php?NIM=<?php echo $row['NIM']; ?>" class="btn btn-info">Detail</a>
                                             </td>

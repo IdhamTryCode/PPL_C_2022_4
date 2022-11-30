@@ -1,7 +1,7 @@
 <?php
 session_start(); //inisialisasi session
 if (!isset($_SESSION['username'])) {
-    header('Location: ../login_mhs.php');
+  header('Location: ../login_mhs.php');
 }
 require_once('../db_connect.php');
 ?>
@@ -11,12 +11,12 @@ require_once('../db_connect.php');
 
 $email = $_SESSION['username'];
 
-$query = 'SELECT * FROM mahasiswa WHERE email_mhs="'.$email.'"';
+$query = 'SELECT * FROM mahasiswa WHERE email_mhs="' . $email . '"';
 
 $result = $koneksi->query($query);
 
 if ($result->num_rows > 0) {
-  while($row = $result->fetch_assoc()) {
+  while ($row = $result->fetch_assoc()) {
     $nama = $row['nama_mhs'];
     $status = $row['status_mhs'];
     $nim = $row['NIM'];
@@ -25,41 +25,41 @@ if ($result->num_rows > 0) {
     $phone = $row['no_hp_mhs'];
     $email = $row['email_mhs'];
     $jalur = $row['jalur_masuk'];
-    }
+  }
 }
 
-$query2 = 'SELECT * FROM khs WHERE nim_mhs="'.$nim.'"';
+$query2 = 'SELECT * FROM khs WHERE nim_mhs="' . $nim . '"';
 $result2 = $koneksi->query($query2);
 
 if ($result2->num_rows > 0) {
-  while($row = $result2->fetch_assoc()) {
+  while ($row = $result2->fetch_assoc()) {
     $semester_mhs = $row['semester_mhs'];
     $nim_mhs = $row['nim_mhs'];
     $sks_semester = $row['sks_semester'];
     $ip_semester = $row['ip_semester'];
     $ip_kumulatif = $row['ip_kumulatif'];
     $berkas_khs = $row['berkas_khs'];
-    }
+  }
 }
 
 ?>
 
 <?php if ($_POST) {
-    $nim_mhs = test_input($_POST['nim_mhs']);
-    $semester_mhs = test_input($_POST['semester_mhs']);
-    $sks_semester = test_input($_POST['sks_semester']);
-    $ip_semester = test_input($_POST['ip_semester']);
-    $ip_kumulatif = test_input($_POST['ip_kumulatif']);
-    $berkas_khs = test_input($_POST['berkas_khs']);
-    $query = "UPDATE khs SET semester_mhs = '$semester_mhs', sks_semester = '$sks_semester', ip_semester = '$ip_semester', ip_kumulatif = '$ip_kumulatif', 
+  $nim_mhs = test_input($_POST['nim_mhs']);
+  $semester_mhs = test_input($_POST['semester_mhs']);
+  $sks_semester = test_input($_POST['sks_semester']);
+  $ip_semester = test_input($_POST['ip_semester']);
+  $ip_kumulatif = test_input($_POST['ip_kumulatif']);
+  $berkas_khs = test_input($_POST['ba_khs']);
+  $query = "UPDATE khs SET semester_mhs = '$semester_mhs', sks_semester = '$sks_semester', ip_semester = '$ip_semester', ip_kumulatif = '$ip_kumulatif', 
               berkas_khs = '$berkas_khs' WHERE nim_mhs = '$nim_mhs'";
-    $result = $koneksi->query($query);
-    if ($result): ?>
-                                <div class="alert alert-success">Data berhasil disimpan</div>
-                            <?php else: ?>
-                                <div class="alert alert-error">Data gagal disimpan <?php echo $koneksi->error; ?></div>
-                            }
-                            <?php endif;
+  $result = $koneksi->query($query);
+  if ($result) : ?>
+    <div class="alert alert-success">Data berhasil disimpan</div>
+  <?php else : ?>
+    <div class="alert alert-error">Data gagal disimpan <?php echo $koneksi->error; ?></div>
+    }
+<?php endif;
 } ?>
 
 <!DOCTYPE html>
@@ -135,33 +135,20 @@ if ($result2->num_rows > 0) {
 </head>
 
 <body>
-  <?php
-  if (isset($_POST['submit'])) {
-    $nim_mhs = test_input($_POST['nim_mhs']);
-    $semester_mhs = test_input($_POST['semester_mhs']);
-    $sks_semester = test_input($_POST['sks_semester']);
-    $ip_semester = test_input($_POST['ip_semester']);
-    $ip_kumulatif = test_input($_POST['ip_kumulatif']);
-    $ba_khs = test_input($_POST['ba_khs']);
-
-
-    $query = ("INSERT INTO khs(nim_mhs, semester_mhs, sks_semester, ip_semester, ip_kumulatif, ba_khs) VALUES ('$nim_mhs', '$semester_mhs', '$sks_semester','$ip_semester','$ip_kumulatif','$ba_khs')");
-    $result = $koneksi->query($query);
-
-    if ($result) :
-  ?>
-      <div class="alert alert-success">Data berhasil disimpan</div>
-    <?php else : ?>
-      <div class="alert alert-error">Data gagal disimpan <?php echo $koneksi->error ?></div>
-      }
-  <?php
-    endif;
-  }
-  ?>
   <nav class="navbar navbar-expand d-flex flex-column align-item-start" id="sidebar">
     <div class="text-center">
-      <img src="foto.jpg" alt="foto" width="150px" class="rounded-circle" />
-      <h3 class="font-weight-light">Fadhil Irsyad<br />Mahasiswa</h3>
+    <?php
+      if (isset($_GET['email_mhs'])) {
+        $email = $_GET['email_mhs'];
+      }
+      $res = mysqli_query($koneksi, "SELECT nama_mhs, foto_profil FROM mahasiswa WHERE email_mhs = '$email'");
+      $hasil = mysqli_fetch_array($res); 
+      echo '<img src="profil/'.$hasil['foto_profil'].'" alt="foto" width="150px" class="rounded-circle" />';
+      ?>
+      <h3 class="font-weight-light">
+        <?php echo $hasil['nama_mhs'] ?>
+        <br />Mahasiswa
+      </h3>
     </div>
     <ul class="navbar-nav d-flex flex-column mt-3 w-100 text-center font-weight-bold">
       <li class="nav-item w-100">
@@ -180,7 +167,7 @@ if ($result2->num_rows > 0) {
         <a href="dataskripsi.php" class="nav-link text-light pl-2">Data Skripsi</a>
       </li>
       <li class="nav-item w-100">
-        <a href="logout.php" class="nav-link text-light pl-2">Keluar</a>
+        <a href="../logout_mhs.php" class="nav-link text-light pl-2">Keluar</a>
       </li>
     </ul>
   </nav>
@@ -196,31 +183,31 @@ if ($result2->num_rows > 0) {
           <h2>Data KHS</h2>
           <br>
           <form method="POST" autocomplete="on" action="<?php echo htmlspecialchars(
-                $_SERVER['PHP_SELF']
-            ); ?>">
+                                                          $_SERVER['PHP_SELF']
+                                                        ); ?>">
             <div class="form-group mb-3">
               <label for="nim_mhs">Nomor Induk Mahasiswa</label>
-              <input type="text" class="form-control" name="nim_mhs" id="nim_mhs" value="<?=$nim?>">
+              <input type="text" class="form-control" name="nim_mhs" id="nim_mhs" value="<?= $nim ?>">
               <small class="form-text text-danger" id=""></small>
             </div>
             <div class="form-group mb-3">
               <label for="semester_mhs">Semester Mahasiswa</label>
-              <input type="text" class="form-control" name="semester_mhs" id="semester_mhs" value="<?=$semester_mhs?>">
+              <input type="text" class="form-control" name="semester_mhs" id="semester_mhs" value="<?= $semester_mhs ?>">
               <small class="form-text text-danger" id=""></small>
             </div>
             <div class="form-group mb-3">
               <label for="sks_semester">SKS Semester</label>
-              <input type="text" class="form-control" name="sks_semester" id="sks_semester" value="<?=$sks_semester?>">
+              <input type="text" class="form-control" name="sks_semester" id="sks_semester" value="<?= $sks_semester ?>">
               <small class="form-text text-danger" id=""></small>
             </div>
             <div class="form-group mb-3">
               <label for="ip_semester">IP Semester</label>
-              <input type="text" class="form-control" name="ip_semester" id="ip_semester" value="<?=$ip_semester?>">
+              <input type="text" class="form-control" name="ip_semester" id="ip_semester" value="<?= $ip_semester ?>">
               <small class="form-text text-danger" id=""></small>
             </div>
             <div class="form-group mb-3">
               <label for="ip_kumulatif">IP Kumulatif</label>
-              <input type="text" class="form-control" name="ip_kumulatif" id="ip_kumulatif" value="<?=$ip_kumulatif?>">
+              <input type="text" class="form-control" name="ip_kumulatif" id="ip_kumulatif" value="<?= $ip_kumulatif ?>">
               <small class="form-text text-danger" id=""></small>
             </div>
             <div class="mb-3">

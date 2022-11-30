@@ -30,16 +30,28 @@ if (isset($_POST["submit"])){
         $valid = FALSE;
     }
 
+
     if ($valid){
         $query = "INSERT INTO mahasiswa (NIM, nama_mhs, email_mhs, password_mhs, angkatan, status_mhs) VALUES ('" . $nim . "', '" . $nama . "', '" . $email . "', '12345', '2023', 'aktif')";
         //execute the query
         $result = $koneksi->query($query);
-        if (!$result){
-            die ("Could not the query the database: <br />" . $koneksi->error . '<br>Query:' .$query);
-        } else{
-            //ketika sudah di submit , maka akan langsung pindah ke halaman view_customer.php
-            $koneksi->close();
-            header('Location: buat_akun.php');
+        if ($result){
+          $query2 = "INSERT INTO irs (nim_mhs, semester_mhs, sks, status_irs) VALUES ('" . $nim . "', '1', '24', '1')";
+          $result2 = $koneksi->query($query2);
+          if ($result2){
+            $query3 = "INSERT INTO khs (nim_mhs, semester_mhs, sks_semester, ip_semester, ip_kumulatif) VALUES ('" . $nim . "', '1', '24', '0', '0')";
+            $result3 = $koneksi->query($query3);
+            if ($result3){
+              $query4 = "INSERT INTO pkl (nim_mhs, status_pkl, nilai_pkl) VALUES ('" . $nim . "', 'Belum PKL', '-')";
+              $result4 = $koneksi->query($query4);
+              if ($result4){
+                $query5 = "INSERT INTO skripsi (nim_mhs, status_skripsi) VALUES ('" . $nim . "', 'Belum Skripsi')";
+                $result5 = $koneksi->query($query5);
+                $koneksi->close();
+                header('Location: buat_akun.php');
+              }
+            }
+          }
         }
     }
 }

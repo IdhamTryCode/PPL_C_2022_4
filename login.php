@@ -3,58 +3,12 @@ of Simple CSS Waves-->
 <?php
 session_start(); //inisialisasi session
 require_once 'db_connect.php';
-
-//cek apakah user sudah submit form
-if (isset($_POST['submit'])) {
-    $valid = true; //flag validasi
-
-    //cek validasi email
-    $email = test_input($_POST['email']);
-    if ($email == '') {
-        $error_email = 'Email is required';
-        $valid = false;
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error_email = 'Invalid email format';
-        $valid = false;
-    }
-
-    //cek validasi password
-    $password = test_input($_POST['password']);
-    if ($password == '') {
-        $error_password = 'Password is required';
-        $valid = false;
-    }
-
-    //cek validasi
-    if ($valid) {
-        //asign a query
-        $query =
-            " SELECT * FROM user WHERE email='" .
-            $email .
-            "' AND password='" .
-            $password .
-            "' ";
-        //excute the query
-        $result = $koneksi->query($query);
-        if (!$result) {
-            die('Could not query the database: <br />' . $db->error);
-        } elseif (
-            $query = " SELECT * FROM user WHERE role='" . $result->role . "' "
-        ) {
-            if ($result->num_rows > 0) {
-                //login berhasil
-                $_SESSION['username'] = $email;
-                header('Location: operator.php');
-                exit();
-            } else {
-                //login gagal
-                echo '<span class="error">Combination of username and password are not correct.</span>';
-            }
-        }
-        //close db connection
-        $koneksi->close();
+if (isset($_GET['pesan'])) {
+    if ($_GET['pesan'] == "gagal") {
+        echo "<div class='alert'>Username dan Password tidak sesuai !</div>";
     }
 }
+
 ?>
 
 <head>
@@ -63,6 +17,8 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AAA SIAP</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
 </head>
 <div class="header">
     <style>
@@ -72,7 +28,7 @@ if (isset($_POST['submit'])) {
             position: relative;
             text-align: center;
             background: linear-gradient(60deg, rgba(205, 252, 246, 1) 0%, rgba(152, 168, 248, 1) 100%);
-            color: green;
+            color: blue;
         }
 
         body {
@@ -165,7 +121,7 @@ if (isset($_POST['submit'])) {
     </style>
     <!--Content before waves-->
     <div class="box d-flex ms-auto align-items-center justify-content-center text-center py-3">
-        <form action="cek_login.php" method="POST">
+        <form action="cek_login.php" method="post">
             <div class="logo mx-auto mb-2">
                 <img src="logoundip.png" width="250px" alt="">
             </div>
@@ -179,10 +135,20 @@ if (isset($_POST['submit'])) {
                 <input type="password" name="password" class="form-control" placeholder="Password">
             </div>
             <div class="login-button">
-                <button type="submit" name="submit" class="btn btn-primary w-100">Login</button>
+                <button type="submit" name="submit" class="btn btn-primary w-100 font-weight-bold">Login</button>
             </div>
         </form>
     </div>
+    <div class="dropdown mt-3">
+        Login as <button class="btn btn-primary dropdown-toggle text-light" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="book-dropdown">
+            Admin
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="book-dropdown">
+            <li><a class="dropdown-item" href="login_mhs.php">Mahasiswa</a></li>
+            <li><a class="dropdown-item" href="login.php">Admin</a></li>
+        </ul>
+    </div>
+
 
     <!--Waves Container-->
     <div>

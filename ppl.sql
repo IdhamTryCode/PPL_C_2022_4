@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 28 Okt 2022 pada 02.28
+-- Waktu pembuatan: 30 Nov 2022 pada 15.33
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 8.1.2
 
@@ -47,7 +47,7 @@ INSERT INTO `dosen` (`nip_dosen`, `nama_dosen`, `kode_wali`) VALUES
 --
 
 CREATE TABLE `irs` (
-  `nim` bigint(120) NOT NULL,
+  `nim_mhs` bigint(120) NOT NULL,
   `semester_mhs` int(2) NOT NULL,
   `sks` int(2) NOT NULL,
   `status_irs` int(20) NOT NULL,
@@ -58,16 +58,17 @@ CREATE TABLE `irs` (
 -- Dumping data untuk tabel `irs`
 --
 
-INSERT INTO `irs` (`nim`, `semester_mhs`, `sks`, `status_irs`, `berkas_irs`) VALUES
-(24060120120018, 2, 23, 0, ''),
+INSERT INTO `irs` (`nim_mhs`, `semester_mhs`, `sks`, `status_irs`, `berkas_irs`) VALUES
+(24060120120018, 2, 28, 0, 'operator (1).png'),
 (24060120120025, 3, 62, 0, ''),
-(24060120120017, 5, 72, 0, ''),
+(24060120120017, 5, 72, 1, ''),
 (24060120120019, 7, 140, 0, ''),
 (24060120120020, 2, 44, 0, ''),
 (24060120120021, 3, 61, 1, ''),
 (24060120120022, 8, 132, 0, ''),
 (24060120120023, 5, 92, 0, ''),
-(24060120120024, 4, 88, 0, '');
+(24060120120024, 4, 88, 0, ''),
+(24060120120026, 1, 24, 1, '');
 
 -- --------------------------------------------------------
 
@@ -108,7 +109,10 @@ INSERT INTO `khs` (`nim_mhs`, `semester_mhs`, `sks_semester`, `ip_semester`, `ip
 (24060120120022, 8, 130, 3.1, 3.3, ''),
 (24060120120023, 8, 135, 3.4, 3.5, ''),
 (24060120120024, 4, 88, 3.4, 3.6, ''),
-(24060120120025, 2, 40, 3.5, 3.55, '');
+(24060120120025, 2, 40, 3.5, 3.55, ''),
+(24060120120018, 5, 40, 3.8, 3.1, ''),
+(24060120120018, 5, 40, 3.8, 3.1, ''),
+(24060120120026, 1, 24, 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -125,23 +129,25 @@ CREATE TABLE `mahasiswa` (
   `email_mhs` varchar(50) NOT NULL,
   `password_mhs` varchar(20) NOT NULL,
   `alamat_mhs` varchar(100) NOT NULL,
-  `status_mhs` varchar(15) NOT NULL
+  `status_mhs` varchar(15) NOT NULL,
+  `foto_profil` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `mahasiswa`
 --
 
-INSERT INTO `mahasiswa` (`NIM`, `nama_mhs`, `no_hp_mhs`, `angkatan`, `jalur_masuk`, `email_mhs`, `password_mhs`, `alamat_mhs`, `status_mhs`) VALUES
-(24060120120017, 'Fedro Bossini', '08282719219', '2022', 'UM', 'fedro@mahasiswa.com', '12345', 'Medan', 'aktif'),
-(24060120120018, 'Fadhil', '', '2020', '', 'fadhil@mahasiswa.com', 'fadhildong', '', 'cuti'),
-(24060120120019, 'Isa', '', '2017', '', 'isa@mahasiswa.com', '12345', '', 'aktif'),
-(24060120120020, 'Faris', '', '2022', '', 'faris@mahasiswa.com', '12345', '', 'aktif'),
-(24060120120021, 'Zeri', '', '2021', '', 'zeri@mahasiswa.com', 'zeriasoy', '', 'cuti'),
-(24060120120022, 'Adril', '', '2016', '', 'adril@mahasiswa.com', '12345', '', 'aktif'),
-(24060120120023, 'Ega', '', '2019', '', 'ega@mahasiswa.com', '12345', '', 'cuti'),
-(24060120120024, 'Rafly', '', '2018', '', 'rafly@mahasiswa.com', '12345', '', 'aktif'),
-(24060120120025, 'Adan', '08123849102912', '2020', 'SNMPTN', 'adan@mahasiswa.com', 'adanyoi', 'Pati', 'cuti');
+INSERT INTO `mahasiswa` (`NIM`, `nama_mhs`, `no_hp_mhs`, `angkatan`, `jalur_masuk`, `email_mhs`, `password_mhs`, `alamat_mhs`, `status_mhs`, `foto_profil`) VALUES
+(24060120120017, 'Fedro Bossini', '08282719219', '2022', 'UM', 'fedro@mahasiswa.com', '12345', 'Medan', 'aktif', 'fedro.jpg'),
+(24060120120018, 'Fadhil', '', '2020', '', 'fadhil@mahasiswa.com', 'fadhildong', '', 'cuti', 'fadhil.jpg'),
+(24060120120019, 'Isa', '', '2017', '', 'isa@mahasiswa.com', '12345', '', 'aktif', 'isa.jpg'),
+(24060120120020, 'Faris', '', '2022', '', 'faris@mahasiswa.com', '12345', '', 'aktif', 'faris.jpg'),
+(24060120120021, 'Zeri', '', '2021', '', 'zeri@mahasiswa.com', 'zeriasoy', '', 'cuti', 'zeri.jpg'),
+(24060120120022, 'Adril', '', '2016', '', 'adril@mahasiswa.com', '12345', '', 'aktif', 'adril.jpg'),
+(24060120120023, 'Idham', '', '2019', '', 'idham@mahasiswa.com', '12345', '', 'cuti', 'idham.jpg'),
+(24060120120024, 'Rafly', '', '2018', '', 'rafly@mahasiswa.com', '12345', '', 'aktif', 'rafly.jpg'),
+(24060120120025, 'Adan', '08123849102912', '2020', 'SNMPTN', 'adan@mahasiswa.com', 'adanyoi', 'Pati', 'cuti', 'adan.jpg'),
+(24060120120026, 'Taufik', '0838137123871', '2023', 'UM', 'taufik@mahasiswa.com', '12345', 'Semarang', 'aktif', 'taufik.jpeg');
 
 -- --------------------------------------------------------
 
@@ -162,14 +168,15 @@ CREATE TABLE `pkl` (
 
 INSERT INTO `pkl` (`nim_mhs`, `status_pkl`, `nilai_pkl`, `ba_pkl`) VALUES
 ('24060120120017', 'Lulus', 'A', ''),
-('24060120120018', 'Belum Lulus', '-', ''),
+('24060120120018', 'Lulus', 'B', ''),
 ('24060120120019', 'Belum PKL', '-', ''),
 ('24060120120020', 'Lulus', 'B', ''),
 ('24060120120021', 'Belum PKL', '-', ''),
 ('24060120120022', 'Belum Lulus', '-', ''),
 ('24060120120023', 'Belum Lulus', '-', ''),
 ('24060120120024', 'Lulus', 'B', ''),
-('24060120120025', 'Lulus', 'A', '');
+('24060120120025', 'Lulus', 'A', ''),
+('24060120120026', 'Belum PKL', '-', '');
 
 -- --------------------------------------------------------
 
@@ -203,14 +210,15 @@ CREATE TABLE `skripsi` (
 
 INSERT INTO `skripsi` (`nim_mhs`, `status_skripsi`, `nilai_skripsi`, `lama_belajar`, `tanggal_sidang`, `ba_skripsi`) VALUES
 (24060120120017, 'Lulus', 'B', 2, '2022-10-11', ''),
-(24060120120018, 'Belum Lulus', NULL, NULL, NULL, NULL),
+(24060120120018, 'Lulus', 'B', 2, NULL, ''),
 (24060120120019, 'Belum Skripsi', NULL, NULL, NULL, NULL),
 (24060120120020, 'Lulus', 'B', 2, '2022-10-06', NULL),
 (24060120120021, 'Belum Skripsi', NULL, NULL, NULL, NULL),
 (24060120120022, 'Lulus', 'B', 1, '2022-10-17', NULL),
 (24060120120023, 'Lulus', 'B', 2, '2022-10-24', NULL),
 (24060120120024, 'Lulus', 'A', 1, '2022-10-05', NULL),
-(24060120120025, 'Lulus', 'B', 2, '2022-10-19', NULL);
+(24060120120025, 'Lulus', 'B', 2, '2022-10-19', NULL),
+(24060120120026, 'Belum Skripsi', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -249,7 +257,7 @@ ALTER TABLE `dosen`
 -- Indeks untuk tabel `irs`
 --
 ALTER TABLE `irs`
-  ADD KEY `nim` (`nim`);
+  ADD KEY `nim` (`nim_mhs`);
 
 --
 -- Indeks untuk tabel `kabkota`
@@ -306,7 +314,7 @@ ALTER TABLE `user`
 -- Ketidakleluasaan untuk tabel `irs`
 --
 ALTER TABLE `irs`
-  ADD CONSTRAINT `nim_fk` FOREIGN KEY (`nim`) REFERENCES `mahasiswa` (`NIM`);
+  ADD CONSTRAINT `nim_fk` FOREIGN KEY (`nim_mhs`) REFERENCES `mahasiswa` (`NIM`);
 
 --
 -- Ketidakleluasaan untuk tabel `khs`

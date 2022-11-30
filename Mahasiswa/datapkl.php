@@ -1,7 +1,7 @@
 <?php
 session_start(); //inisialisasi session
 if (!isset($_SESSION['username'])) {
-    header('Location: ../login_mhs.php');
+  header('Location: ../login_mhs.php');
 }
 require_once('../db_connect.php');
 ?>
@@ -11,12 +11,12 @@ require_once('../db_connect.php');
 
 $email = $_SESSION['username'];
 
-$query = 'SELECT * FROM mahasiswa WHERE email_mhs="'.$email.'"';
+$query = 'SELECT * FROM mahasiswa WHERE email_mhs="' . $email . '"';
 
 $result = $koneksi->query($query);
 
 if ($result->num_rows > 0) {
-  while($row = $result->fetch_assoc()) {
+  while ($row = $result->fetch_assoc()) {
     $nama = $row['nama_mhs'];
     $status = $row['status_mhs'];
     $nim = $row['NIM'];
@@ -25,37 +25,37 @@ if ($result->num_rows > 0) {
     $phone = $row['no_hp_mhs'];
     $email = $row['email_mhs'];
     $jalur = $row['jalur_masuk'];
-    }
+  }
 }
 
-$query2 = 'SELECT * FROM pkl WHERE nim_mhs="'.$nim.'"';
+$query2 = 'SELECT * FROM pkl WHERE nim_mhs="' . $nim . '"';
 $result2 = $koneksi->query($query2);
 
 if ($result2->num_rows > 0) {
-  while($row = $result2->fetch_assoc()) {
+  while ($row = $result2->fetch_assoc()) {
     $status_skripsi = $row['status_pkl'];
     $nim_mhs = $row['nim_mhs'];
     $nilai_pkl = $row['nilai_pkl'];
     $ba_pkl = $row['ba_pkl'];
-    }
+  }
 }
 
 ?>
 
 <?php if ($_POST) {
-    $nim_mhs = test_input($_POST['nim_mhs']);
-    $status_pkl = test_input($_POST['status_pkl']);
-    $nilai_pkl = test_input($_POST['nilai_pkl']);
-    $ba_pkl = test_input($_POST['ba_pkl']);
-    $query = "UPDATE pkl SET status_pkl = '$status_pkl', nilai_pkl = '$nilai_pkl', 
+  $nim_mhs = test_input($_POST['nim_mhs']);
+  $status_pkl = test_input($_POST['status_pkl']);
+  $nilai_pkl = test_input($_POST['nilai_pkl']);
+  $ba_pkl = test_input($_POST['ba_pkl']);
+  $query = "UPDATE pkl SET status_pkl = '$status_pkl', nilai_pkl = '$nilai_pkl', 
               ba_pkl = '$ba_pkl' WHERE nim_mhs = '$nim_mhs'";
-    $result = $koneksi->query($query);
-    if ($result): ?>
-                                <div class="alert alert-success">Data berhasil disimpan</div>
-                            <?php else: ?>
-                                <div class="alert alert-error">Data gagal disimpan <?php echo $koneksi->error; ?></div>
-                            }
-                            <?php endif;
+  $result = $koneksi->query($query);
+  if ($result) : ?>
+    <div class="alert alert-success">Data berhasil disimpan</div>
+  <?php else : ?>
+    <div class="alert alert-error">Data gagal disimpan <?php echo $koneksi->error; ?></div>
+    }
+<?php endif;
 } ?>
 
 
@@ -132,11 +132,21 @@ if ($result2->num_rows > 0) {
 </head>
 
 <body>
-  
+
   <nav class="navbar navbar-expand d-flex flex-column align-item-start" id="sidebar">
     <div class="text-center">
-      <img src="foto.jpg" alt="foto" width="150px" class="rounded-circle" />
-      <h3 class="font-weight-light">Fadhil Irsyad<br />Mahasiswa</h3>
+    <?php
+      if (isset($_GET['email_mhs'])) {
+        $email = $_GET['email_mhs'];
+      }
+      $res = mysqli_query($koneksi, "SELECT nama_mhs, foto_profil FROM mahasiswa WHERE email_mhs = '$email'");
+      $hasil = mysqli_fetch_array($res); 
+      echo '<img src="profil/'.$hasil['foto_profil'].'" alt="foto" width="150px" class="rounded-circle" />';
+      ?>
+      <h3 class="font-weight-light">
+        <?php echo $hasil['nama_mhs'] ?>
+        <br />Mahasiswa
+      </h3>
     </div>
     <ul class="navbar-nav d-flex flex-column mt-3 w-100 text-center font-weight-bold">
       <li class="nav-item w-100">
@@ -155,7 +165,7 @@ if ($result2->num_rows > 0) {
         <a href="dataskripsi.php" class="nav-link text-light pl-2">Data Skripsi</a>
       </li>
       <li class="nav-item w-100">
-        <a href="logout.php" class="nav-link text-light pl-2">Keluar</a>
+        <a href="../logout_mhs.php" class="nav-link text-light pl-2">Keluar</a>
       </li>
     </ul>
   </nav>
@@ -171,21 +181,21 @@ if ($result2->num_rows > 0) {
           <h2>Data PKL</h2>
           <br>
           <form method="POST" autocomplete="on" action="<?php echo htmlspecialchars(
-                $_SERVER['PHP_SELF']
-            ); ?>">
+                                                          $_SERVER['PHP_SELF']
+                                                        ); ?>">
             <div class="form-group mb-3">
               <label for="nim_mhs">Nomor Induk Mahasiswa</label>
-              <input type="text" class="form-control" name="nim_mhs" id="nim_mhs" value="<?=$nim?>">
+              <input type="text" class="form-control" name="nim_mhs" id="nim_mhs" value="<?= $nim ?>">
               <small class="form-text text-danger" id=""></small>
             </div>
             <div class="form-group mb-3">
               <label for="status_pkl">Status PKL</label>
-              <input type="text" class="form-control" name="status_pkl" id="status_pkl" value="<?=$status_skripsi?>">
+              <input type="text" class="form-control" name="status_pkl" id="status_pkl" value="<?= $status_skripsi ?>">
               <small class="form-text text-danger" id=""></small>
             </div>
             <div class="form-group mb-3">
               <label for="nilai_pkl">Nilai PKL</label>
-              <input type="text" class="form-control" name="nilai_pkl" id="nilai_pkl" value="<?=$nilai_pkl?>">
+              <input type="text" class="form-control" name="nilai_pkl" id="nilai_pkl" value="<?= $nilai_pkl ?>">
               <small class="form-text text-danger" id=""></small>
               <div class="form-group mb-3">
                 <label for="ba_pkl" class="form-label">Scan Berita Acara</label>
