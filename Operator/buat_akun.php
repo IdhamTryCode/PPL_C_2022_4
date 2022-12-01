@@ -32,7 +32,7 @@ if (isset($_POST["submit"])){
 
 
     if ($valid){
-        $query = "INSERT INTO mahasiswa (NIM, nama_mhs, email_mhs, password_mhs, angkatan, status_mhs) VALUES ('" . $nim . "', '" . $nama . "', '" . $email . "', '12345', '2023', 'aktif')";
+        $query = "INSERT INTO mahasiswa (NIM, nama_mhs, email_mhs, password_mhs, angkatan, status_mhs, foto_profil) VALUES ('" . $nim . "', '" . $nama . "', '" . $email . "', '12345', '2023', 'aktif', 'default.jpg')";
         //execute the query
         $result = $koneksi->query($query);
         if ($result){
@@ -150,10 +150,7 @@ if (isset($_POST["submit"])){
             ?>
             <img src="foto.jpg" alt="foto" width="150px" class="rounded-circle">
             <h3 class="font-weight-light">
-                <?php
-                echo $res['nama_dosen'];
-                ?>
-                <br>Dosen
+                Idham Hanif Multazam<br>Operator
             </h3>
         </div>
       <ul
